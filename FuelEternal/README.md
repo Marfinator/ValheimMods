@@ -6,21 +6,21 @@ Fuel eternal has updated config options to customize extacly what is effect by t
 # Config Features
 The mod offers the following fuel sources in the config to enable/disable the eternal fuel:
 
-Campfire
-Bonfire
-Hearth
-Sconce
-Standing iron torch
-Standing wood torch
-Standing green-burning iron torch
-Standing blue-burning iron torch
-Standing brazier
-Hanging brazier
-Jack-o-turnip
-Stone oven
-Hot tub
-Smelter
-Blast furnace
+- Campfire
+- Bonfire
+- Hearth
+- Sconce
+- Standing iron torch
+- Standing wood torch
+- Standing green-burning iron torch
+- Standing blue-burning iron torch
+- Standing brazier
+- Hanging brazier
+- Jack-o-turnip
+- Stone oven
+- Hot tub
+- Smelter
+- Blast furnace
 **(Note: all options are set to enabled by default except for the smelter and blast furnace)
 
 # Installation
