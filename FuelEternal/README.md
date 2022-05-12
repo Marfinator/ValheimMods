@@ -26,6 +26,7 @@ The mod offers the following fuel sources in the config to enable/disable the et
 
 # Installation
 To install this mod, I recommend using [Vortex](https://www.nexusmods.com/about/vortex/)
+
 To install manually, place the dll file in the BepInEx/plugins folder. You will need BepInEx setup as well.
 
 # Other
