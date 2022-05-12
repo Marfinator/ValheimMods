@@ -1,6 +1,8 @@
 # Fuel Eternal
 Fuel Eternal is a mod that will set the max fuel of any objects with a fuel source. The fuel source will be set to the the maximum without the need to manually input the fuel resource from the player's inventory.
+
 This is an updated reimagining of [TorchesEternal](https://www.nexusmods.com/valheim/mods/945) - Mod originally by XenoFell (cstamford on [GitHub](https://github.com/cstamford/ValheimMods/tree/main/TorchesEternal))
+
 Fuel eternal has updated config options to customize exactly what is effect by the mod to your liking. Compared to TorchesEternals, has support for stone ovens, hot tubs, smelters, and blast furnaces. See below for a list of all items that can be adjusted through the config.
 
 # Config Features
