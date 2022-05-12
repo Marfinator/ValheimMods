@@ -28,5 +28,5 @@ The mod offers the following fuel sources in the config to enable/disable the et
 To install this mod, I recommend using [Vortex](https://www.nexusmods.com/about/vortex/)
 To install manually, place the dll file in the BepInEx/plugins folder. You will need BepInEx setup as well.
 
-#Other
+# Other
 Code is avaiable via [GitHub](https://github.com/Marfinator/ValheimMods/tree/main/FuelEternal)
