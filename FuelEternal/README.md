@@ -3,7 +3,7 @@ Fuel Eternal is a mod that will set the max fuel of any objects with a fuel sour
 
 This is an updated reimagining of [TorchesEternal](https://www.nexusmods.com/valheim/mods/945) - Mod originally by XenoFell (cstamford on [GitHub](https://github.com/cstamford/ValheimMods/tree/main/TorchesEternal))
 
-Fuel Eternal has updated config options to customize exactly what is effected by the mod to your liking. Compared to TorchesEternals, has support for stone ovens, hot tubs, smelters, and blast furnaces. See below for a list of all items that can be adjusted through the config.
+Fuel Eternal has updated config options to customize exactly what is effected by the mod to your liking. Compared to TorchesEternal, has support for stone ovens, hot tubs, smelters, and blast furnaces. See below for a list of all items that can be adjusted through the config.
 
 # Config Features
 The mod offers the following fuel sources in the config to enable/disable the eternal fuel:
