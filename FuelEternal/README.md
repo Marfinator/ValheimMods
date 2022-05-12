@@ -21,6 +21,7 @@ The mod offers the following fuel sources in the config to enable/disable the et
 - Hot tub
 - Smelter
 - Blast furnace
+- 
 **(Note: all options are set to enabled by default except for the smelter and blast furnace)
 
 # Installation
