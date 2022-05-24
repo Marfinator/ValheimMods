@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
+using System.Linq;
 using UnityEngine;
 
 namespace FuelEternal
@@ -9,11 +10,12 @@ namespace FuelEternal
     {
         public const string Name = "FuelEternal";
         public const string Guid = "Marfinator." + Name;
-        public const string Version = "1.0.0";
+        public const string Version = "1.1.0";
     }
 
     [BepInPlugin(PluginInfo.Guid, PluginInfo.Name, PluginInfo.Version)]
     [BepInProcess("valheim.exe")]
+
     public class FuelEternal : BaseUnityPlugin
     {
         private readonly Harmony harmony = new Harmony(PluginInfo.Guid);
@@ -32,6 +34,7 @@ namespace FuelEternal
         private static ConfigEntry<bool> fe_smelter;
         private static ConfigEntry<bool> fe_blastfurnace;
         private static ConfigEntry<bool> fe_piece_bathtub;
+        private static ConfigEntry<string> fe_custom_instance;
 
         void Awake()
         {
@@ -50,6 +53,8 @@ namespace FuelEternal
             fe_piece_bathtub = Config.Bind<bool>("Smelters", "AllowHotTub", true, "Allow eternal fuel for Hot tub");
             fe_smelter = Config.Bind<bool>("Smelters", "AllowSmelter", false, "Allow eternal fuel for Smelter");
             fe_blastfurnace = Config.Bind<bool>("Smelters", "AllowBlastFurnace", false, "Allow eternal fuel for Blast furnace");
+            fe_custom_instance = Config.Bind<string>("Custom", "CustomItems", "", "Enable Fuel Eternal to manage fuel for custom items added by other mods, comma-separated no spaces (e.g. \"rk_campfire,rk_hearth,rk_brazier\" )");
+
             harmony.PatchAll();
         }
 
@@ -58,6 +63,64 @@ namespace FuelEternal
             harmony.UnpatchSelf();
         }
 
+        static bool ConfigCheck(string instanceName)
+        {
+            bool EternalFuel = false;
+            switch (instanceName)
+            {
+                case "fire_pit(Clone)":
+                    EternalFuel = fe_fire_pit.Value;
+                    break;
+                case "bonfire(Clone)":
+                    EternalFuel = fe_bonfire.Value;
+                    break;
+                case "hearth(Clone)":
+                    EternalFuel = fe_hearth.Value;
+                    break;
+                case "piece_walltorch(Clone)":
+                    EternalFuel = fe_piece_walltorch.Value;
+                    break;
+                case "piece_groundtorch(Clone)":
+                    EternalFuel = fe_piece_groundtorch.Value;
+                    break;
+                case "piece_groundtorch_wood(Clone)":
+                    EternalFuel = fe_piece_groundtorch_wood.Value;
+                    break;
+                case "piece_groundtorch_green(Clone)":
+                    EternalFuel = fe_piece_groundtorch_green.Value;
+                    break;
+                case "piece_groundtorch_blue(Clone)":
+                    EternalFuel = fe_piece_groundtorch_blue.Value;
+                    break;
+                case "piece_brazierfloor01(Clone)":
+                    EternalFuel = fe_piece_brazierfloor01.Value;
+                    break;
+                case "piece_brazierceiling01(Clone)":
+                    EternalFuel = fe_piece_brazierceiling01.Value;
+                    break;
+                case "piece_jackoturnip(Clone)":
+                    EternalFuel = fe_piece_jackoturnip.Value;
+                    break;
+                case "piece_oven(Clone)":
+                    EternalFuel = fe_piece_oven.Value;
+                    break;
+                case "smelter(Clone)":
+                    EternalFuel = fe_smelter.Value;
+                    break;
+                case "blastfurnace(Clone)":
+                    EternalFuel = fe_blastfurnace.Value;
+                    break;
+                case "piece_bathtub(Clone)":
+                    EternalFuel = fe_piece_bathtub.Value;
+                    break;
+            }
+            if (fe_custom_instance.Value.Split(',').Contains(instanceName.Remove(instanceName.Length - 7)))
+                EternalFuel = true;
+            return EternalFuel;
+        }
+
+
+        /*********************************************-Harmony Patches-*********************************************/
         [HarmonyPatch]
         class Fireplace_UpdateFireplace_Patch
         {
@@ -66,44 +129,7 @@ namespace FuelEternal
             [HarmonyPrefix]
             static void Fireplace_UpdateFireplace(Fireplace __instance, ref ZNetView ___m_nview)
             {
-                bool EternalFuel = false;
-                switch (__instance.name)
-                {
-                    case "fire_pit(Clone)":
-                        EternalFuel = fe_fire_pit.Value;
-                        break;
-                    case "bonfire(Clone)":
-                        EternalFuel = fe_bonfire.Value;
-                        break;
-                    case "hearth(Clone)":
-                        EternalFuel = fe_hearth.Value;
-                        break;
-                    case "piece_walltorch(Clone)":
-                        EternalFuel = fe_piece_walltorch.Value;
-                        break;
-                    case "piece_groundtorch(Clone)":
-                        EternalFuel = fe_piece_groundtorch.Value;
-                        break;
-                    case "piece_groundtorch_wood(Clone)":
-                        EternalFuel = fe_piece_groundtorch_wood.Value;
-                        break;
-                    case "piece_groundtorch_green(Clone)":
-                        EternalFuel = fe_piece_groundtorch_green.Value;
-                        break;
-                    case "piece_groundtorch_blue(Clone)":
-                        EternalFuel = fe_piece_groundtorch_blue.Value;
-                        break;
-                    case "piece_brazierfloor01(Clone)":
-                        EternalFuel = fe_piece_brazierfloor01.Value;
-                        break;
-                    case "piece_brazierceiling01(Clone)":
-                        EternalFuel = fe_piece_brazierceiling01.Value;
-                        break;
-                    case "piece_jackoturnip(Clone)":
-                        EternalFuel = fe_piece_jackoturnip.Value;
-                        break;
-                }
-                if (EternalFuel)
+                if (ConfigCheck(__instance.name))
                     ___m_nview.GetZDO().Set("fuel", __instance.m_maxFuel);
             }   
         }
@@ -116,14 +142,7 @@ namespace FuelEternal
             [HarmonyPrefix]
             static void CookingStation_SetFuel(CookingStation __instance, ref float fuel)
             {
-                bool EternalFuel = false;
-                switch(__instance.name)
-                {
-                    case "piece_oven(Clone)":
-                        EternalFuel = fe_piece_oven.Value;
-                        break;
-                }
-                if (EternalFuel)
+                if (ConfigCheck(__instance.name))
                     fuel = __instance.m_maxFuel;
             }
         }
@@ -136,20 +155,7 @@ namespace FuelEternal
             [HarmonyPrefix]
             static void Smelter_SetFuel(Smelter __instance, ref float fuel)
             {
-                bool EternalFuel = false;
-                switch (__instance.name)
-                {
-                    case "smelter(Clone)":
-                        EternalFuel = fe_smelter.Value;
-                        break;
-                    case "blastfurnace(Clone)":
-                        EternalFuel = fe_blastfurnace.Value;
-                        break;
-                    case "piece_bathtub(Clone)":
-                        EternalFuel = fe_piece_bathtub.Value;
-                        break;
-                }
-                if (EternalFuel)
+                if (ConfigCheck(__instance.name))
                     fuel = __instance.m_maxFuel;
             }
         }
@@ -162,14 +168,7 @@ namespace FuelEternal
             [HarmonyPostfix]
             static void CookingStation_Awake(CookingStation __instance, ref ZNetView ___m_nview)
             {
-                bool EternalFuel = false;
-                switch (__instance.name)
-                {
-                    case "piece_oven(Clone)":
-                        EternalFuel = fe_piece_oven.Value;
-                        break;
-                }
-                if (EternalFuel && !(___m_nview == null) && ___m_nview.GetZDO() != null)
+                if (ConfigCheck(__instance.name) && !(___m_nview == null) && ___m_nview.GetZDO() != null)
                     ___m_nview.InvokeRPC("AddFuel");
             }
         }
@@ -182,20 +181,7 @@ namespace FuelEternal
             [HarmonyPostfix]
             static void Smelter_Awake(Smelter __instance, ref ZNetView ___m_nview)
             {
-                bool EternalFuel = false;
-                switch (__instance.name)
-                {
-                    case "smelter(Clone)":
-                        EternalFuel = fe_smelter.Value;
-                        break;
-                    case "blastfurnace(Clone)":
-                        EternalFuel = fe_blastfurnace.Value;
-                        break;
-                    case "piece_bathtub(Clone)":
-                        EternalFuel = fe_piece_bathtub.Value;
-                        break;
-                }
-                if (EternalFuel && !(___m_nview == null) && ___m_nview.GetZDO() != null)
+                if (ConfigCheck(__instance.name) && !(___m_nview == null) && ___m_nview.GetZDO() != null)
                         ___m_nview.InvokeRPC("AddFuel");
             }
         }
