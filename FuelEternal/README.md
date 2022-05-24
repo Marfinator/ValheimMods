@@ -31,9 +31,9 @@ The mod offers the following fuel sources in the config to enable/disable the et
 To enable Fuel Eternal to manage fuel for custom items added by other mods, edit the value named "CustomItems" with a comma-separated list of the instance names (do not use spaces). For example: ***rk_campfire,rk_hearth,rk_brazier*** will enable eternal fuel for the smokeless fires added by [Bone Appetit](https://www.nexusmods.com/valheim/mods/1250)
 
 # Changelog
-##Version 1.1.0
+## Version 1.1.0
 -Added support for custom items
-##Version 1.0.0
+## Version 1.0.0
 -Initial release
 
 # Installation
