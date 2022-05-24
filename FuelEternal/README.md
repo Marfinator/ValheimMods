@@ -32,9 +32,9 @@ To enable Fuel Eternal to manage fuel for custom items added by other mods, edit
 
 # Changelog
 ## Version 1.1.0
--Added support for custom items
+- Added support for custom items
 ## Version 1.0.0
--Initial release
+- Initial release
 
 # Installation
 To install this mod, I recommend using [Vortex](https://www.nexusmods.com/about/vortex/)
